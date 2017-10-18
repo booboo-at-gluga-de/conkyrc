@@ -1,0 +1,106 @@
+alignment top_right
+background yes
+use_xft yes
+xftfont Terminal:size=8
+xftalpha 0.5
+font DejaVu Sans Mono:size=8
+#font Comic sans MS:size=10
+update_interval 0.5
+total_run_times 0
+own_window yes
+own_window_type override
+own_window_transparent yes
+own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
+double_buffer yes
+#minimum_size 230 5
+maximum_width 400
+draw_shades no
+draw_outline no
+draw_borders no
+draw_graph_borders yes
+default_color grey
+default_shade_color red
+default_outline_color green
+alignment bottom_right
+gap_x 10
+gap_y 20
+no_buffers yes
+uppercase no
+cpu_avg_samples 2
+net_avg_samples 1
+override_utf8_locale yes
+use_spacer right
+text_buffer_size 256
+
+TEXT
+#${font openlogos:size=20}${color Red}Debian|${color Orange}Jessie${font openlogos:size=20}
+${font openlogos:size=20}${color Red}Debian | ${color Orange}Jessie${font openlogos:size=20}
+${voffset -95}
+${color DimGray}
+${font}
+
+${font bold:size=10}${color Tan1}TIME / DATE ${color DarkSlateGray} ${hr 2}
+${font bold:size=8}${color White}${time %a.    } ${color }${time %e. %B %G}\
+${font bold:size=8}${color White}${alignr}${time %Z.    }${color }${time %H:%M:%S}
+
+${font bold:size=10}${color Tan1}SYSTEM ${color DarkSlateGray} ${hr 2}
+$font${color White}$sysname $kernel $alignr $machine
+Intel(R) Core(TM)2 Duo CPU T7250 @ 2.00GHz $alignr${freq_g cpu0}
+Kernel Version $alignr${kernel}
+Hostname $alignr${nodename}
+Uptime $alignr${uptime}
+File System $alignr${fs_type}
+
+${font bold:size=10}${color Tan1}PROCESSORS ${color DarkSlateGray}${hr 2}
+$font${color White}CPU1  ${cpu cpu1}% ${color Blue}${cpubar cpu1}
+$font${color White}CPU2  ${cpu cpu2}% ${color Blue}${cpubar cpu2}
+${color red}${cpugraph 0000ff 00ff00}
+${font bold:size=10}${color Tan1}TEMPERATUR ${color DarkSlateGray}${hr 2}
+$font${color White}CPU Temperatur: ${acpitemp}°C $alignr CPU Lüfter: ${exec sensors | grep fan | sed -r "s/[a-z:]*[1][:][ ]*//"}
+
+${font bold:size=10}${color Tan1}BATTERIE ${color DarkSlateGray}${hr 2}
+$font${color White}Batteriestatus: ${alignr}${battery_percent}%
+${color darkgreen}${battery_bar}
+
+${font bold:size=10}${color Tan1}MEMORY ${color DarkSlateGray}${hr 2}
+$font${color White}MEM $alignc $mem / $memmax $alignr $memperc%
+${color Blue}$membar
+ 
+${font bold:size=10}${color Tan1}HDD ${color DarkSlateGray}${hr 2}
+$font${color White}/    $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_free_perc /}%
+${color Blue}${fs_bar /}
+$font${color White}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_free_perc /home}%
+${color Blue}${fs_bar /home}
+		
+${font bold:size=10}${color Tan1}TOP PROCESSES ${color DarkSlateGray}${hr 2}
+${color White}$font${top_mem name 1}${alignr}${top mem 1} %
+$font${top_mem name 2}${alignr}${top mem 2} %
+$font${top_mem name 3}${alignr}${top mem 3} %
+$font${top_mem name 4}${alignr}${top mem 4} %
+$font${top_mem name 5}${alignr}${top mem 5} %
+
+${font bold:size=10}${color Tan1}NETWORK${color DarkSlateGray}${hr 2}${color Orange}${font}
+LAN : ${addr eth0} ${offset 10} ${alignr}WAN: ${execi 7200 ~/.conky/publicip.sh}
+WLAN: ${addr wlan0}
+${if_existing /proc/net/route eth0}\
+Down: ${color #8844ee} ${downspeed eth0}${color lightgrey} ${offset 80}Up:${color #22ccff} ${upspeed eth0}
+${else}\
+${if_existing /proc/net/route wlan0}\
+Down: ${color #8844ee} ${downspeed wlan0}${color lightgrey} ${offset 80}Up:${color #22ccff} ${upspeed wlan0}
+${else}\
+${endif}\
+${endif}\
+${color #0000ff}${downspeedgraph eth0 32,140 ff0000 0000ff 2} ${color #22ccff}${upspeedgraph eth0 32,140 0000ff ff0000}
+${if_existing /proc/net/route eth0}\
+${color White}${font}Down: ${downspeedf eth00}kB/s Total: ${totaldown eth0}
+${color White}${font}Up:   ${upspeedf eth0}kB/s Total: ${totalup eth0}
+eth0 ist up
+${else}\
+${if_existing /proc/net/route wlan0}\
+${color White}${font}Down: ${downspeedf wlan0}kB/s Total: ${totaldown wlan0}
+${color White}${font}Up:   ${upspeedf wlan0}kB/s Total: ${totalup wlan0}
+wlan0 is up
+${else}\
+Kein Netzwerk verfügbar
+${endif}\
+${endif}
