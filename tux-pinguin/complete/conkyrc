@@ -1,0 +1,172 @@
+-- Conky configuration.
+
+conky.config={
+-- Aligned position on screen, can be abreviated as (tl,tr,tm,bl,br,bm,ml,mm,mr)
+	alignment = 'top_right',
+-- Boolean value, if true, Conky will be forked to background when started
+	background=true,
+-- The number of samples to average for CPU monitoring
+	cpu_avg_samples=2,
+-- The number of samples to average for disk I/O monitoring
+        diskio_avg_samples=2,
+-- The number of samples to average for net data
+	net_avg_samples=2,
+-- Default color and border color 
+	default_color='grey',
+-- Default outline color
+	default_outline_color='green',
+-- Default shading color and borders shading color 
+	default_shade_color='red',
+-- Use the Xdbe extension (eliminates flicker)
+	double_buffer=true,
+-- Draw borders around text
+	draw_borders=false,
+-- Draw borders around graphs
+	draw_graph_borders=true,
+-- Draw outlines
+	draw_outline=false,
+-- Draw shades
+	draw_shades=false,
+-- Font name in X, xfontsel can be used to get a nice font
+        font='DejaVu Sans Mono:size=10',
+-- 	font='Comic sans MS:size=10',
+-- Gap, in pixels, between right or left border of screen, e.g. gap_x 10
+	gap_x=5,
+-- Gap, in pixels, between top or bottom border of screen, e.g. gap_y 10
+	gap_y=29,
+-- Maximum width of window
+--	maximum_width=800,
+-- Minimum height and width of the window
+--	minimum_size=230 5,
+-- Subtract (file system) buffers from used memory
+	no_buffers=true,
+-- Force UTF8. requires XFT
+	override_utf8_locale=true,
+-- Boolean, create own window to draw
+	own_window=true,
+-- Modify the alpha value used. Range 0-255, where 0 is 0%, and 255 is 100% opacity
+	own_window_argb_value=0,
+-- Boolean, use ARGB visual. ARGB can be used for real transparency
+	own_window_argb_visual=true,
+-- Manually set the WM_CLASS name. Defaults to "Conky"
+--	own_window_class='Conky',
+-- If own_window is yes, you may use these window manager hints to affect the way Conky displays
+	own_window_hints='undecorated,below,sticky,skip_taskbar,skip_pager',
+-- Boolean, set transparency. If ARGB visual is enabled, sets background opacity 0%
+	own_window_transparent=true,
+-- if own_window is yes, you may specify type normal,desktop,dock,panel or override
+	own_window_type='desktop',
+-- Size of the text buffer (default 256). This buffer is used for intermediary text
+	text_buffer_size=256,
+-- If false, cpu in top will show the usage of all processors power combined
+	top_cpu_separate=false,
+-- Total number of times to update before quitting. Zero makes Conky run forever
+	total_run_times=0,
+-- Update interval
+	update_interval=0.5,
+-- Boolean value, if true, text is rendered in upper case
+	uppercase=false,
+-- Adds spaces around certain objects to stop them from moving other things around
+	use_spacer='right',
+-- Use Xft (anti-aliased font and stuff) 
+	use_xft=true,
+-- Alpha of Xft font. Must be a value at or between 1 and 0
+        xftalpha=0.5,
+-- 
+--	xftfont='Terminal:size=10'
+-- Set your interface name (eth0,wlan0,...) for init.d or interface name (enp0s25,wlp3s0,...) for systemd naming scheme 
+	template0 = [[enp0s25]],
+	template1 = [[wlp3s0]],
+	color0 = '#6644ee',
+	color1 = '#22ccff'
+};
+
+conky.text = [[
+${font openlogos:size=20}${color Red}${distribution} | ${color Orange}Stretch${font openlogos:size=20}
+${voffset -95}
+${color DimGray}
+${font}
+
+${font bold:size=10}${color Tan1}TIME / DATE ${color DarkSlateGray} ${hr 2}
+${font bold:size=8}${color White}${time %a.    } ${color }${time %e. %B %G}\
+${font bold:size=8}${color White}${alignr}${time %Z.  }${color }${time %H:%M:%S}
+
+${font bold:size=10}${color Tan1}SYSTEM ${color DarkSlateGray} ${hr 2}
+$font${color White}$sysname $kernel $alignr $machine
+Intel(R) Core(TM) i7-2670QM CPU @ 2.20GHz
+Kernel Version $alignr${kernel}
+Hostname $alignr${nodename}
+Uptime $alignr${uptime}
+File System $alignr${fs_type}
+
+${font bold:size=10}${color Tan1}PROCESSORS ${color DarkSlateGray}${hr 2}
+$font${color White}CPU1  ${freq_g 1}Ghz  ${cpu cpu1}% ${color Blue}${cpubar cpu1}
+${if_empty ${cpu cpu2}}\
+${else}\
+$font${color White}CPU2  ${freq_g 2}Ghz  ${cpu cpu2}% ${color Blue}${cpubar cpu2}
+${endif}\
+${if_empty ${cpu cpu3}}\
+${else}\
+$font${color White}CPU3  ${freq_g 3}Ghz  ${cpu cpu3}% ${color Blue}${cpubar cpu3}
+${endif}\
+${if_empty ${cpu cpu4}}\
+${else}\
+$font${color White}CPU4  ${freq_g 4}Ghz  ${cpu cpu4}% ${color Blue}${cpubar cpu4}
+${endif}\
+#${color red}${cpugraph 0000ff 00ff00 scale -t}
+${color red} ${cpugraph cpu1 20,325 444444 31a8e8 -t}
+${font bold:size=10}${color Tan1}TEMPERATURE ${color DarkSlateGray}${hr 2}
+$font${color White}CPU Temperatur: ${acpitemp}°C $alignr Fan: ${ibm_fan}U/min $alignr
+
+${font bold:size=10}${color Tan1}BATTERY ${color DarkSlateGray}${hr 2}
+$font${color White}Batterie Status: ${battery BAT0} $alignr ${battery_percent}%
+${color darkgreen}${battery_bar 17,325}
+#$font${color White}Zeit: ${battery_time 0}
+${font bold:size=10}${color Tan1}MEMORY ${color DarkSlateGray}${hr 2}
+$font${color White}Memory $alignc $mem / $memmax $alignr $memperc%
+${color darkgrey}${membar 17,325}
+#$font${color White}MEMwithBuffers $alignc $memwithbuffers
+#${color Blue}$memwithbuffersbar
+${font bold:size=10}${color Tan1}HDD ${color DarkSlateGray}${hr 2}
+$font${color White}/    $alignc ${fs_used /} / ${fs_size /} $alignr ${fs_free_perc /}%
+${color Blue}${fs_bar 17,325 /}
+$font${color White}/home $alignc ${fs_used /home} / ${fs_size /home} $alignr ${fs_free_perc /home}%
+${color Blue}${fs_bar 17,325 /home}
+#$font${color White}swap $alignc ${swap} / ${swapmax} $alignr ${swapperc}%
+#$font${color Blue}${swapbar 15,325}
+${font bold:size=10}${color Tan1}TOP PROCESSES ${color DarkSlateGray}${hr 2}
+${color White}$font${top_time name 1}${alignr}${top_time cpu 1} %
+$font${top_time name 2}${alignr}${top_time cpu 2} %
+$font${top_time name 3}${alignr}${top_time cpu 3} %
+$font${top_time name 4}${alignr}${top_time cpu 4} %
+#$font${top_mem name 5}${alignr}${top mem 5} %
+
+${font bold:size=10}${color Tan1}NETWORK${color DarkSlateGray}${hr 2}${color Orange}${font}
+LAN : ${addr ${template0}} ${offset 10} ${alignr}WAN: ${execi 7200 ~/.conky/publicip.sh}
+WLAN: ${addr ${template1}} $alignc SSID: ${wireless_essid ${template1}} ${alignr}Qual:${wireless_link_qual ${template1}}
+GW-IP: ${gw_ip} $alignr GW-IF: ${gw_iface}
+${if_existing /proc/net/route ${template0}}\
+${color lightgrey}Down: ${color0} ${downspeed ${template0}}${color lightgrey} ${offset 80}Up:${color1} ${upspeed ${template0}}
+${color0}${downspeedgraph ${template0} 30,160 ff0000 0000ff 2} ${color1}${upspeedgraph ${template0} 30,160 0000ff ff0000}
+${else}\
+${if_existing /proc/net/route ${template1}}\
+${color lightgrey}Down: ${color0} ${downspeed ${template1}}${color lightgrey} ${offset 80}Up:${color1} ${upspeed ${template1}}
+${color0}${downspeedgraph ${template1} 30,160 ff0000 0000ff 2} ${color1}${upspeedgraph ${template1} 30,160 0000ff ff0000}
+${else}\
+${endif}\
+${endif}\
+${color0}${downspeedgraph ${template0} 30,160 ff0000 0000ff 2} ${color1}${upspeedgraph ${template0} 30,160 0000ff ff0000}
+${if_existing /proc/net/route ${template0}}\
+${color White}${font}Down	: ${downspeedf ${template0}}kB/s Total: ${totaldown ${template0}}
+${color White}${font}Up     : ${upspeedf ${template0}}kB/s Total: ${totalup ${template0}}
+${color White}${template0} ist up
+${else}\
+${if_existing /proc/net/route ${template1}}\
+${color White}${font}Down	: ${downspeedf ${template1}}kB/s Total: ${totaldown ${template1}}
+${color White}${font}Up     : ${upspeedf ${template1}}kB/s Total: ${totalup ${template1}}
+${color White}${template1} is up on Channel ${wireless_channel ${template1}}
+${else}\
+${color red}Kein Netzwerk verfügbar
+${endif}\
+${endif}
+]]
