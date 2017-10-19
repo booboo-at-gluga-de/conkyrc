@@ -7,7 +7,7 @@ We - some of the members of [GNU/Linux User Group Altdorf](https://gluga.de/) - 
 
 In first place we want to share our conkyrc files here with each other and with the rest of the world so that we can learn from each other.
 
-Next thing will be to set up pluggable system of prepared conkyrc blocks. This way a library will grow. Everybody than can easily pick the CPU usage block from here, the RAM usage block from there and can this way plug together his/her individual conkyrc with very low effort and without caring about all details of the conkyrc language. Stay curious!
+Next thing will be to set up a pluggable system of prepared conkyrc blocks. This way a library will grow. Everybody then can easily pick the CPU usage block from here, the RAM usage block from there and can this way plug together his/her individual conkyrc with very low effort and without caring about all details of the conkyrc language. Stay curious!
 
 Getting started
 ---------------
@@ -48,3 +48,5 @@ Directly under this directory you create a directory named "complete" for your c
 
 Please do not add hidden files (starting with a dot).
 Especially do not publish your .conkyrc under that name, but name it conkyrc instead or give it other meaningful names if you provide more of them.
+
+Regular contributors can get direct commit permissions. Please contact BooBoo.
