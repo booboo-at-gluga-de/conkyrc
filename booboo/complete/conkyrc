@@ -79,8 +79,58 @@ xftfont                 Terminal:size=10
 # .--- Content Intro (TEXT) -------------------------------------------------.
 TEXT
 #.
+# .--- NETWORK --------------------------------------------------------------.
+${font bold:size=10}${color Tan1}NETWORK ${font}${color}@${font bold:size=10}${color Tan1} ${nodename} ${color}${hr 2}
+#
+${color}${font}\
+LAN : ${addr eth0} ${alignr}WAN: ${execi 7200 ~/bin/get-my-public-ip.sh}
+${if_existing /proc/net/route wlan0}\
+WLAN: ${addr wlan0} ${alignr}Link Quality: ${wireless_link_qual wlan0}
+SSID: ${wireless_essid wlan0}
+${endif}\
+GW-IP: ${gw_ip} ${alignr} GW-IF: ${gw_iface}
+Nameservers:${alignr}\
+${if_empty ${nameserver 0}}\
+none\
+${else}\
+${nameserver 0}\
+${endif}\
+${if_empty ${nameserver 1}}\
+${else}\
+, ${nameserver 1}\
+${endif}\
+${if_empty ${nameserver 2}}\
+${else}\
+, ...\
+${endif}\
+
+${voffset 7}\
+${if_existing /proc/net/route eth0}\
+${color}eth0 down: ${downspeed eth0}${alignr}${upspeed eth0} up
+${color red}${downspeedgraph eth0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph eth0 30,155 green green 2} 
+${else}\
+${if_existing /proc/net/route wlan0}\
+${color}wlan0 down: ${downspeed wlan0}${alignr}${upspeed wlan0} up
+${color red}${downspeedgraph wlan0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph wlan0 30,155 green green 2} 
+${endif}\
+${endif}\
+#
+${color}\
+${if_existing /proc/net/route eth0}\
+Down: ${downspeedf eth0}kB/s ${alignr}Total: ${totaldown eth0}
+Up     : ${upspeedf eth0}kB/s ${alignr}Total: ${totalup eth0}
+${else}\
+${if_existing /proc/net/route wlan0}\
+Down: ${downspeedf wlan0}kB/s ${alignr}Total: ${totaldown wlan0}
+Up     : ${upspeedf wlan0}kB/s ${alignr}Total: ${totalup wlan0}
+${else}\
+${color red}No network available
+${endif}\
+${endif}\
+#.
 # .--- CPU ------------------------------------------------------------------.
-${font bold:size=10}${color Tan1}CPU ${font}${color}@${font bold:size=10}${color Tan1} ${nodename} ${color}${hr 2}
+${voffset 5}\
+${font bold:size=10}${color Tan1}CPU ${color}${hr 2}
 #
 ${font}${color}CPU Temperatur: ${acpitemp}°C ${alignr} Fan: ${ibm_fan}U/min ${alignr}
 ${color}CPU1  ${freq_g 1}Ghz  ${cpu cpu1}%${alignc}${color red}${cpubar cpu1}
@@ -141,55 +191,6 @@ ${color}sdb read: ${diskio_read sdb}${alignr}${diskio_write sdb} write
 ${color red}${diskiograph_read sdb 25,155 red red 2} ${alignr} ${color green}${diskiograph_write sdb 25,155 green green 2} 
 ${endif}\
 #.
-# .--- NETWORK --------------------------------------------------------------.
-${font bold:size=10}${color Tan1}NETWORK${color}${hr 2}
-#
-${color}${font}\
-LAN : ${addr eth0} ${alignr}WAN: ${execi 7200 ~/bin/get-my-public-ip.sh}
-${if_existing /proc/net/route wlan0}\
-WLAN: ${addr wlan0} ${alignr}Link Quality: ${wireless_link_qual wlan0}
-SSID: ${wireless_essid wlan0}
-${endif}\
-GW-IP: ${gw_ip} ${alignr} GW-IF: ${gw_iface}
-Nameservers:${alignr}\
-${if_empty ${nameserver 0}}\
-none\
-${else}\
-${nameserver 0}\
-${endif}\
-${if_empty ${nameserver 1}}\
-${else}\
-, ${nameserver 1}\
-${endif}\
-${if_empty ${nameserver 2}}\
-${else}\
-, ...\
-${endif}\
-
-${voffset 7}\
-${if_existing /proc/net/route eth0}\
-${color}eth0 down: ${downspeed eth0}${alignr}${upspeed eth0} up
-${color red}${downspeedgraph eth0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph eth0 30,155 green green 2} 
-${else}\
-${if_existing /proc/net/route wlan0}\
-${color}wlan0 down: ${downspeed wlan0}${alignr}${upspeed wlan0} up
-${color red}${downspeedgraph wlan0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph wlan0 30,155 green green 2} 
-${endif}\
-${endif}\
-#
-${color}\
-${if_existing /proc/net/route eth0}\
-Down: ${downspeedf eth0}kB/s ${alignr}Total: ${totaldown eth0}
-Up     : ${upspeedf eth0}kB/s ${alignr}Total: ${totalup eth0}
-${else}\
-${if_existing /proc/net/route wlan0}\
-Down: ${downspeedf wlan0}kB/s ${alignr}Total: ${totaldown wlan0}
-Up     : ${upspeedf wlan0}kB/s ${alignr}Total: ${totalup wlan0}
-${else}\
-${color red}No network available
-${endif}\
-${endif}\
-#.
 # .--- SYSTEM ---------------------------------------------------------------.
 ${voffset 5}\
 ${font bold:size=10}${color Tan1}SYSTEM ${color} ${hr 2}
@@ -204,4 +205,14 @@ Uptime ${alignr}${uptime}
 #
 #
 #${font bold:size=10}${color Tan1}TEST SECTION END${color} ${hr 2}
+
+
+
+
+
+
+
+
+
+
 #.
