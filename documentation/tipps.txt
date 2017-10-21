@@ -1,0 +1,16 @@
+Tipps
+=====
+
+On this page we collect some tipps we found useful while playing around with Conky
+
+
+How to install Conky version 1.10 on Debian Jessie
+--------------------------------------------------
+
+Conky 1.10 offers more features and a new configuration syntax.
+Debian Jessie by default delivers Conky 1.9
+But there are backports available. To install them in a root shell:
+
+    echo 'deb http://ftp.de.debian.org/debian jessie-backports main' >> /etc/apt/sources.list
+    aptitude update
+    aptitude -t jessie-backports install conky-all
