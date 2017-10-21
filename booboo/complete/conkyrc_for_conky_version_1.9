@@ -4,7 +4,7 @@
 #Aligned position on screen, can be abreviated as (tl,tr,tm,bl,br,bm,ml,mm,mr)
 alignment               top_right
 #Boolean value, if true, Conky will be forked to background when started
-background              yes
+background              no
 #The number of samples to average for CPU monitoring
 cpu_avg_samples         2
 #The number of samples to average for disk I/O monitoring
@@ -29,16 +29,10 @@ draw_outline            no
 draw_shades             no
 #Font name in X, xfontsel can be used to get a nice font
 font                    DejaVu Sans Mono:size = 10
-#   font                Comic sans MS:size = 10
 #Gap, in pixels, between right or left border of screen, e.g. gap_x 10
 gap_x                   5
 #Gap, in pixels, between top or bottom border of screen, e.g. gap_y 10
 gap_y                   40
-#Maximum width of window
-#  maximum_width        800
-#Minimum height and width of the window
-#  minimum_size         230 5
-minimum_height          800
 #Subtract (file system) buffers from used memory
 no_buffers              yes
 #Force UTF8. requires XFT
@@ -49,15 +43,10 @@ own_window              yes
 own_window_argb_value   100
 #Boolean, use ARGB visual. ARGB can be used for real transparency
 own_window_argb_visual  yes
-#Manually set the WM_CLASS name. Defaults to "Conky"
-# own_window_class      Conky
-#If own_window is yes, you may use these window manager hints to affect the way Conky displays
-# own_window_hints      undecorated,below,sticky,skip_taskbar,skip_pager
 #Boolean, set transparency. If ARGB visual is enabled, sets background opacity 0%
 own_window_transparent  no
 #if own_window is yes, you may specify type normal,desktop,dock,panel or override
 own_window_type         desktop
-own_window_color        black
 #Size of the text buffer (default 256). This buffer is used for intermediary text
 text_buffer_size        256
 #If false, cpu in top will show the usage of all processors' power combined
