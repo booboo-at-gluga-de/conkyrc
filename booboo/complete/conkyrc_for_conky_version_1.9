@@ -95,23 +95,14 @@ ${endif}\
 
 ${voffset 7}\
 ${if_existing /proc/net/route eth0}\
-${color}eth0 down: ${downspeed eth0}${alignr}${upspeed eth0} up
+${color}eth0 Down: ${downspeedf eth0}kB/s ${alignr} ${upspeedf eth0}kB/s Up
 ${color red}${downspeedgraph eth0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph eth0 30,155 green green 2} 
+${color}Total Down: ${totaldown eth0} ${alignr} Total Up: ${totalup eth0}
 ${else}\
 ${if_existing /proc/net/route wlan0}\
-${color}wlan0 down: ${downspeed wlan0}${alignr}${upspeed wlan0} up
+${color}wlan0 Down: ${downspeedf wlan0}kB/s ${alignr} ${upspeedf wlan0}kB/s Up
 ${color red}${downspeedgraph wlan0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph wlan0 30,155 green green 2} 
-${endif}\
-${endif}\
-#
-${color}\
-${if_existing /proc/net/route eth0}\
-Down: ${downspeedf eth0}kB/s ${alignr}Total: ${totaldown eth0}
-Up     : ${upspeedf eth0}kB/s ${alignr}Total: ${totalup eth0}
-${else}\
-${if_existing /proc/net/route wlan0}\
-Down: ${downspeedf wlan0}kB/s ${alignr}Total: ${totaldown wlan0}
-Up     : ${upspeedf wlan0}kB/s ${alignr}Total: ${totalup wlan0}
+${color}Total Down: ${totaldown wlan0} ${alignr} Total Up: ${totalup wlan0}
 ${else}\
 ${color red}No network available
 ${endif}\
