@@ -78,6 +78,9 @@ ${if_existing /proc/net/route wlan0}\
 WLAN: ${addr wlan0} ${alignr}Link Quality: ${wireless_link_qual wlan0}
 SSID: ${wireless_essid wlan0}
 ${endif}\
+${if_existing /proc/net/route tun0}\
+${color Tan1}VPN:${color} ${addr tun0}
+${endif}\
 GW-IP: ${gw_ip} ${alignr} GW-IF: ${gw_iface}
 Nameservers:${alignr}\
 ${if_empty ${nameserver 0}}\
