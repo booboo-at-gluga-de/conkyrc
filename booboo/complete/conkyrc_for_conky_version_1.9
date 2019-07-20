@@ -110,6 +110,11 @@ ${else}\
 ${color red}No network available
 ${endif}\
 ${endif}\
+
+rtt heise.de (IPv6):${alignr}\
+${execi 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s}
+rtt heise.de (IPv4):${alignr}\
+${execi 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s}
 #.
 # .--- CPU ------------------------------------------------------------------.
 ${voffset 5}\
