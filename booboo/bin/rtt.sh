@@ -119,7 +119,7 @@ else
         else
             # normalize to values 0 to 100 (for graphing)
             debug RESULT, ms: $RESULT
-            RESULT=$(echo "scale=3; $RESULT / $NORMALIZE_MAX * 100 + 0.5" | bc -l | cut -d'.' -f1)
+            RESULT=$( printf "%1.0f" $(echo "scale=3; $RESULT / $NORMALIZE_MAX * 100" | bc -l) )
             debug RESULT, normalized: $RESULT
         fi
     else
