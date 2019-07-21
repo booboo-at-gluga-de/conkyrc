@@ -111,9 +111,9 @@ ${color red}No network available
 ${endif}\
 ${endif}\
 
-rtt heise v6: ${execi 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s}${alignc}${color orange}\
+rtt heise v6: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s -c}${alignc}${color orange}\
 ${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s -m 1000}${color}
-rtt heise v4: ${execi 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s}${alignc}${color orange}\
+rtt heise v4: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s -c}${alignc}${color orange}\
 ${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s -m 1000}${color}
 #.
 # .--- CPU ------------------------------------------------------------------.

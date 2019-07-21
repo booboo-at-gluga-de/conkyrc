@@ -10,6 +10,9 @@ PING_CMD="ping6"
 PING_COUNT=3
 NORMALIZE=0
 NORMALIZE_MAX=1000
+COLOR_RED=""
+COLOR_ORANGE=""
+COLOR_RESET=""
 DEBUG=0
 
 function help {
@@ -19,7 +22,7 @@ call using:
 $0 -h
     to display this help screen
 
-$0 [-4] [-t <timeout>] [-p <ping_destination>] [-m <max_value>] [-d]
+$0 [-4] [-t <timeout>] [-p <ping_destination>] [-m <max_value>] [-c] [-d]
     with:
         -4  use IPv4 for ping - means: use good old ping command
             (if you do not give this parameter: use IPv6 by default -
@@ -32,12 +35,15 @@ $0 [-4] [-t <timeout>] [-p <ping_destination>] [-m <max_value>] [-d]
             defaults to www.heise.de
         -m <max_value>
             if you want to print graphs or bar charts in conky
+            (conky objects execbar / execibar / ...)
             the script must report a number between 0 and 100.
-            Which value is considered to be 100%. Give this value
+            Which value is considered to be 100%? Give this value
             as <max_value>.
             e. g. if you give -m 1000
-            then 1000 ms of round trip time and any value above this
-            lead to a 100% completely filled bar
+            1000 ms of round trip time (and any value above) lead to
+            a 100% completely filled bar
+        -c  enable colored output
+            (to be used with conky objects execp / execpi)
         -d  to enable debug output
 
 EOH
@@ -49,7 +55,7 @@ function debug {
     fi
 }
 
-while getopts ":h4t:p:m:d" opt; do
+while getopts ":h4t:p:m:cd" opt; do
     case ${opt} in
         h )
             help
@@ -70,6 +76,11 @@ while getopts ":h4t:p:m:d" opt; do
         m )
             NORMALIZE=1
             NORMALIZE_MAX=$OPTARG
+            ;;
+        c )
+            COLOR_RED='${color red}'
+            COLOR_ORANGE='${color orange}'
+            COLOR_RESET='${color}'
             ;;
         \? )
             echo "Invalid Option: -$OPTARG" >&2
@@ -98,16 +109,16 @@ for (( i=0; i<${#SCRIPT_OUT[@]}; i++ )); do
 done
 
 if [[ ${SCRIPT_OUT[-1]} = "TIMEOUT_RC: 124" ]]; then
-    RESULT="timed out"
+    RESULT="${COLOR_RED}timed out${COLOR_RESET}"
     echo timeout abortet ping command after $TIMEOUT >&2
 elif [[ ${SCRIPT_OUT[0]} =~ unknown\ host ]]; then
-    RESULT="unknown host"
+    RESULT="${COLOR_RED}unknown host${COLOR_RESET}"
     echo ${SCRIPT_OUT[0]} >&2
 elif [[ ${SCRIPT_OUT[0]} =~ Network\ is\ unreachable ]]; then
-    RESULT="network unreachable"
+    RESULT="${COLOR_RED}network unreachable${COLOR_RESET}"
     echo ${SCRIPT_OUT[0]} >&2
 elif [[ ${SCRIPT_OUT[-3]} =~ 100%\ packet\ loss ]]; then
-    RESULT="loss 100%"
+    RESULT="${COLOR_RED}loss 100%${COLOR_RESET}"
 else
     if [[ ${SCRIPT_OUT[-2]} =~ ^rtt\ min/avg/max/mdev ]]; then
         RESULT=$( echo ${SCRIPT_OUT[-2]} | cut -d'=' -f2 | cut -d'/' -f2)
@@ -123,7 +134,7 @@ else
             debug RESULT, normalized: $RESULT
         fi
     else
-        RESULT="unknown"
+        RESULT="${COLOR_ORANGE}unknown${COLOR_RESET}"
         echo the output of the ping command was in an unexpected format >&2
         echo and therefor could not be parsed >&2
     fi
