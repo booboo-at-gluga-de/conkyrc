@@ -92,6 +92,8 @@ elif [[ ${SCRIPT_OUT[0]} =~ unknown\ host ]]; then
 elif [[ ${SCRIPT_OUT[0]} =~ Network\ is\ unreachable ]]; then
     RESULT="network unreachable"
     echo ${SCRIPT_OUT[0]} >&2
+elif [[ ${SCRIPT_OUT[-3]} =~ 100%\ packet\ loss ]]; then
+    RESULT="packet loss 100%"
 else
     if [[ ${SCRIPT_OUT[-2]} =~ ^rtt\ min/avg/max/mdev ]]; then
         RESULT=$( echo ${SCRIPT_OUT[-2]} | cut -d'=' -f2 | cut -d'/' -f2)
