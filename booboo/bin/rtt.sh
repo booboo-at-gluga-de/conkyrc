@@ -8,6 +8,8 @@ PING_DEST="www.heise.de"
 TIMEOUT="10s"
 PING_CMD="ping6"
 PING_COUNT=3
+NORMALIZE=0
+NORMALIZE_MAX=1000
 DEBUG=0
 
 function help {
@@ -17,7 +19,7 @@ call using:
 $0 -h
     to display this help screen
 
-$0 [-4] [-t <timeout>] [-p <ping_destination>] [-d]
+$0 [-4] [-t <timeout>] [-p <ping_destination>] [-m <max_value>] [-d]
     with:
         -4  use IPv4 for ping - means: use good old ping command
             (if you do not give this parameter: use IPv6 by default -
@@ -28,6 +30,14 @@ $0 [-4] [-t <timeout>] [-p <ping_destination>] [-d]
         -p <ping_destination>
             give the host you want to ping
             defaults to www.heise.de
+        -m <max_value>
+            if you want to print graphs or bar charts in conky
+            the script must report a number between 0 and 100.
+            Which value is considered to be 100%. Give this value
+            as <max_value>.
+            e. g. if you give -m 1000
+            then 1000 ms of round trip time and any value above this
+            lead to a 100% completely filled bar
         -d  to enable debug output
 
 EOH
@@ -39,7 +49,7 @@ function debug {
     fi
 }
 
-while getopts ":h4t:p:d" opt; do
+while getopts ":h4t:p:m:d" opt; do
     case ${opt} in
         h )
             help
@@ -56,6 +66,10 @@ while getopts ":h4t:p:d" opt; do
             ;;
         d )
             DEBUG=1
+            ;;
+        m )
+            NORMALIZE=1
+            NORMALIZE_MAX=$OPTARG
             ;;
         \? )
             echo "Invalid Option: -$OPTARG" >&2
@@ -93,11 +107,20 @@ elif [[ ${SCRIPT_OUT[0]} =~ Network\ is\ unreachable ]]; then
     RESULT="network unreachable"
     echo ${SCRIPT_OUT[0]} >&2
 elif [[ ${SCRIPT_OUT[-3]} =~ 100%\ packet\ loss ]]; then
-    RESULT="packet loss 100%"
+    RESULT="loss 100%"
 else
     if [[ ${SCRIPT_OUT[-2]} =~ ^rtt\ min/avg/max/mdev ]]; then
         RESULT=$( echo ${SCRIPT_OUT[-2]} | cut -d'=' -f2 | cut -d'/' -f2)
-        RESULT="$RESULT ms"
+
+        if [[ $NORMALIZE -eq 0 ]]; then
+            # the standard case: just report the concrete value
+            RESULT="$RESULT ms"
+        else
+            # normalize to values 0 to 100 (for graphing)
+            debug RESULT, ms: $RESULT
+            RESULT=$(echo "scale=3; $RESULT / $NORMALIZE_MAX * 100 + 0.5" | bc -l | cut -d'.' -f1)
+            debug RESULT, normalized: $RESULT
+        fi
     else
         RESULT="unknown"
         echo the output of the ping command was in an unexpected format >&2
