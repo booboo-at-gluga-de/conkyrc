@@ -114,6 +114,7 @@ else
 
         if [[ $NORMALIZE -eq 0 ]]; then
             # the standard case: just report the concrete value
+            RESULT=$(printf "%1.2f" $RESULT)
             RESULT="$RESULT ms"
         else
             # normalize to values 0 to 100 (for graphing)
