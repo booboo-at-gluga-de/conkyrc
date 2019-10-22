@@ -131,6 +131,9 @@ else
             # normalize to values 0 to 100 (for graphing)
             debug RESULT, ms: $RESULT
             RESULT=$( printf "%1.0f" $(echo "scale=3; $RESULT / $NORMALIZE_MAX * 100" | bc -l) )
+            if [[ $RESULT -gt 100 ]]; then
+                RESULT=100
+            fi
             debug RESULT, normalized: $RESULT
         fi
     else
