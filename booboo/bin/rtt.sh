@@ -6,7 +6,7 @@
 
 PING_DEST="www.heise.de"
 TIMEOUT="10s"
-PING_CMD="ping6"
+PING_CMD="ping6 -q"
 PING_COUNT=3
 NORMALIZE=0
 NORMALIZE_MAX=1000
@@ -22,11 +22,13 @@ call using:
 $0 -h
     to display this help screen
 
-$0 [-4] [-t <timeout>] [-p <ping_destination>] [-m <max_value>] [-c] [-d]
+$0 [-4|-w] [-t <timeout>] [-p <ping_destination>] [-m <max_value>] [-c] [-d]
     with:
         -4  use IPv4 for ping - means: use good old ping command
             (if you do not give this parameter: use IPv6 by default -
             ping6 command)
+        -w  use httping (Port 80, www)
+            httping needs to be installed
         -t <timeout>
             set the timeout for the ping command, e. g. 8s
             defaults to 10s
@@ -55,14 +57,17 @@ function debug {
     fi
 }
 
-while getopts ":h4t:p:m:cd" opt; do
+while getopts ":h4wt:p:m:cd" opt; do
     case ${opt} in
         h )
             help
             exit 0
             ;;
         4 )
-            PING_CMD="ping"
+            PING_CMD="ping -q"
+            ;;
+        w )
+            PING_CMD="httping -r"
             ;;
         t )
             TIMEOUT=$OPTARG
@@ -101,7 +106,7 @@ declare -a SCRIPT_OUT
 export LANG=C
 # write command output into an array (one entry per line)
 # check if timeout aborted the command
-mapfile -t SCRIPT_OUT < <( timeout $TIMEOUT $PING_CMD -q -c $PING_COUNT $PING_DEST 2>&1; echo TIMEOUT_RC: $? )
+mapfile -t SCRIPT_OUT < <( timeout $TIMEOUT $PING_CMD -c $PING_COUNT $PING_DEST 2>&1; echo TIMEOUT_RC: $? )
 
 # debug info
 for (( i=0; i<${#SCRIPT_OUT[@]}; i++ )); do
@@ -120,7 +125,7 @@ elif [[ ${SCRIPT_OUT[0]} =~ Network\ is\ unreachable ]]; then
 elif [[ ${SCRIPT_OUT[-3]} =~ 100%\ packet\ loss ]]; then
     RESULT="${COLOR_RED}loss 100%${COLOR_RESET}"
 else
-    if [[ ${SCRIPT_OUT[-2]} =~ ^rtt\ min/avg/max/mdev ]]; then
+    if [[ ${SCRIPT_OUT[-2]} =~ ^(rtt|round-trip)\ min/avg/max ]]; then
         RESULT=$( echo ${SCRIPT_OUT[-2]} | cut -d'=' -f2 | cut -d'/' -f2)
 
         if [[ $NORMALIZE -eq 0 ]]; then
