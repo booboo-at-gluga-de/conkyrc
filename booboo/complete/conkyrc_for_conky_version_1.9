@@ -71,6 +71,7 @@ TEXT
 # .--- NETWORK --------------------------------------------------------------.
 ${font bold:size=10}${color Tan1}NETWORK ${font}${color}@${font bold:size=10}${color Tan1} ${nodename} ${color}${hr 2}
 #
+${if_gw}\
 ${color}${font}\
 LAN : ${addr eth0} ${alignr}WAN: ${execi 7200 ~/bin/get-my-public-ip.sh}
 ${if_existing /proc/net/route wlan0}\
@@ -106,8 +107,6 @@ ${if_existing /proc/net/route wlan0}\
 ${color}wlan0 Down: ${downspeedf wlan0}kB/s ${alignr} ${upspeedf wlan0}kB/s Up
 ${color red}${downspeedgraph wlan0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph wlan0 30,155 green green 2} 
 ${color}Total Down: ${totaldown wlan0} ${alignr} Total Up: ${totalup wlan0}
-${else}\
-${color red}No network available${color}
 ${endif}\
 ${endif}\
 
@@ -117,6 +116,11 @@ rtt heise v4: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s -c}${alignc}$
 ${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s -m 1000}${color}
 rtt heise 80: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -w -t 8s -c}${alignc}${color orange}\
 ${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -w -t 8s -m 1000}${color}
+${else}\
+
+${color red}No network available${color}
+
+${endif}\
 #.
 # .--- CPU ------------------------------------------------------------------.
 ${voffset 5}\
