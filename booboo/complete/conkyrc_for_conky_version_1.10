@@ -141,13 +141,12 @@ ${color red}${cpugraph red red scale -t}
 ${font bold:size=10}${color Tan1}TOP PROCESSES ${color}${hr 2}
 #
 ${font}\
-${top_mem name 1}${alignr}${top mem 1} %
-${top_mem name 2}${alignr}${top mem 2} %
-${top_mem name 3}${alignr}${top mem 3} %
-${top_mem name 4}${alignr}${top mem 4} %
-${top_mem name 5}${alignr}${top mem 5} %
+${top name 1}${alignr}${top cpu 1}%
+${top name 2}${alignr}${top cpu 2}%
+${top name 3}${alignr}${top cpu 3}%
+${top name 4}${alignr}${top cpu 4}%
 ${voffset 7}\
-Processes: ${processes} run: ${running_processes}${alignr}${running_threads}Threads running
+Processes: ${processes}${alignr}${running_threads}Threads running
 #.
 # .--- MEMORY ---------------------------------------------------------------.
 ${voffset 5}\
