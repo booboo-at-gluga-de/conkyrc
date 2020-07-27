@@ -74,7 +74,7 @@ conky.text = [[
 ${font bold:size=10}${color Tan1}NETWORK ${font}${color}@${font bold:size=10}${color Tan1} ${nodename} ${color}${hr 2}
 #
 ${color}${font}\
-LAN : ${addr enp0s25} ${alignr}WAN: ${execi 7200 ~/bin/get-my-public-ip.sh}
+LAN : ${addr enp0s25}
 ${if_existing /proc/net/route wlp3s0}\
 WLAN: ${addr wlp3s0} ${alignr}Link Quality: ${wireless_link_qual wlp3s0}
 SSID: ${wireless_essid wlp3s0}
@@ -83,6 +83,7 @@ ${if_existing /proc/net/route tun0}\
 ${color Tan1}VPN:${color} ${addr tun0}
 ${endif}\
 GW-IP: ${gw_ip} ${alignr} GW-IF: ${gw_iface}
+WAN: ${alignr} ${execi 7200 ~/bin/get-my-public-ip.sh}
 Nameservers:${alignr}\
 ${if_empty ${nameserver 0}}\
 none\
@@ -90,10 +91,6 @@ ${else}\
 ${nameserver 0}\
 ${endif}\
 ${if_empty ${nameserver 1}}\
-${else}\
-, ${nameserver 1}\
-${endif}\
-${if_empty ${nameserver 2}}\
 ${else}\
 , ...\
 ${endif}\
