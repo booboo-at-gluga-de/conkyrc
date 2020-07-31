@@ -83,7 +83,7 @@ ${if_existing /proc/net/route tun0}\
 ${color Tan1}VPN:${color} ${addr tun0}
 ${endif}\
 GW-IP: ${gw_ip} ${alignr} GW-IF: ${gw_iface}
-WAN: ${alignr} ${execi 7200 ~/bin/get-my-public-ip.sh}
+WAN: ${alignr} ${execi 120 ~/bin/get-my-public-ip.sh -r}
 Nameservers:${alignr}\
 ${if_empty ${nameserver 0}}\
 none\
@@ -115,7 +115,7 @@ ${if_existing /proc/net/route wlp3s0}\
 Down: ${downspeedf wlp3s0}kB/s ${alignr}Total: ${totaldown wlp3s0}
 Up     : ${upspeedf wlp3s0}kB/s ${alignr}Total: ${totalup wlp3s0}
 ${else}\
-${color red}No network available
+${color red}No network available${color}
 ${endif}\
 ${endif}\
 #.
