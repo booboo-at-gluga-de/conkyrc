@@ -75,9 +75,9 @@ ${font bold:size=10}${color Tan1}NETWORK ${font}${color}@${font bold:size=10}${c
 #
 ${color}${font}\
 LAN : ${addr enp0s25}
-${if_existing /proc/net/route wlp3s0}\
-WLAN: ${addr wlp3s0} ${alignr}Link Quality: ${wireless_link_qual wlp3s0}
-SSID: ${wireless_essid wlp3s0}
+${if_existing /proc/net/route wlp0s20u2}\
+WLAN: ${addr wlp0s20u2} ${alignr}Link Quality: ${wireless_link_qual wlp0s20u2}
+SSID: ${wireless_essid wlp0s20u2}
 ${endif}\
 ${if_existing /proc/net/route tun0}\
 ${color Tan1}VPN:${color} ${addr tun0}
@@ -100,9 +100,9 @@ ${if_existing /proc/net/route enp0s25}\
 ${color}enp0s25 down: ${downspeed enp0s25}${alignr}${upspeed enp0s25} up
 ${color red}${downspeedgraph enp0s25 30,155 red red 2} ${alignr} ${color green}${upspeedgraph enp0s25 30,155 green green 2} 
 ${else}\
-${if_existing /proc/net/route wlp3s0}\
-${color}wlp3s0 down: ${downspeed wlp3s0}${alignr}${upspeed wlp3s0} up
-${color red}${downspeedgraph wlp3s0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph wlp3s0 30,155 green green 2} 
+${if_existing /proc/net/route wlp0s20u2}\
+${color}wlp0s20u2 down: ${downspeed wlp0s20u2}${alignr}${upspeed wlp0s20u2} up
+${color red}${downspeedgraph wlp0s20u2 30,155 red red 2} ${alignr} ${color green}${upspeedgraph wlp0s20u2 30,155 green green 2} 
 ${endif}\
 ${endif}\
 #
@@ -111,9 +111,9 @@ ${if_existing /proc/net/route enp0s25}\
 Down: ${downspeedf enp0s25}kB/s ${alignr}Total: ${totaldown enp0s25}
 Up     : ${upspeedf enp0s25}kB/s ${alignr}Total: ${totalup enp0s25}
 ${else}\
-${if_existing /proc/net/route wlp3s0}\
-Down: ${downspeedf wlp3s0}kB/s ${alignr}Total: ${totaldown wlp3s0}
-Up     : ${upspeedf wlp3s0}kB/s ${alignr}Total: ${totalup wlp3s0}
+${if_existing /proc/net/route wlp0s20u2}\
+Down: ${downspeedf wlp0s20u2}kB/s ${alignr}Total: ${totaldown wlp0s20u2}
+Up     : ${upspeedf wlp0s20u2}kB/s ${alignr}Total: ${totalup wlp0s20u2}
 ${else}\
 ${color red}No network available${color}
 ${endif}\
