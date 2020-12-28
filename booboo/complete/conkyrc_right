@@ -1,0 +1,116 @@
+
+--.-- Configuration settings ------------------------------------------------.
+conky.config = {
+    --Aligned position on screen, can be abreviated as (tl,tr,tm,bl,br,bm,ml,mm,mr)
+    alignment = 'top_right',
+    --Needed for conky version 1.10 to work correctly in a dual screen setup
+    xinerama_head = 3,
+    --Boolean value, if true, Conky will be forked to background when started
+    background = false,
+    --The number of samples to average for CPU monitoring
+    cpu_avg_samples = 2,
+    --The number of samples to average for disk I/O monitoring
+    diskio_avg_samples = 2,
+    --The number of samples to average for net data
+    net_avg_samples = 2,
+    --Default color and border color
+    default_color = 'white',
+    --Default outline color
+    default_outline_color = 'green',
+    --Default shading color and border's shading color
+    default_shade_color = 'red',
+    --Use the Xdbe extension (eliminates flicker)
+    double_buffer = true,
+    --Draw borders around text
+    draw_borders = false,
+    --Draw borders around graphs
+    draw_graph_borders = true,
+    --Draw outlines
+    draw_outline = false,
+    --Draw shades
+    draw_shades = false,
+    --Font name in X, xfontsel can be used to get a nice font
+    font = 'Terminal:size=10',
+    --Gap, in pixels, between right or left border of screen, e.g. gap_x 10
+    gap_x = 5,
+    --Gap, in pixels, between top or bottom border of screen, e.g. gap_y 10
+    gap_y = 3,
+    --Subtract (file system) buffers from used memory
+    no_buffers = true,
+    --Force UTF8. requires XFT
+    override_utf8_locale = true,
+    --Boolean, create own window to draw
+    own_window = true,
+    --Modify the alpha value used. Range 0-255, where 0 is 0%, and 255 is 100% opacity
+    own_window_argb_value = 100,
+    --Boolean, use ARGB visual. ARGB can be used for real transparency
+    own_window_argb_visual = true,
+    --Boolean, set transparency. If ARGB visual is enabled, sets background opacity 0%
+    own_window_transparent = false,
+    --if own_window is yes, you may specify type normal,desktop,dock,panel or override
+    own_window_type = 'normal',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    --Size of the text buffer (default 256). This buffer is used for intermediary text
+    text_buffer_size = 256,
+    --If false, cpu in top will show the usage of all processors' power combined
+    top_cpu_separate = false,
+    --Total number of times to update before quitting. Zero makes Conky run forever
+    total_run_times = 0,
+    --Update interval
+    update_interval = 1,
+    --Boolean value, if true, text is rendered in upper case
+    uppercase = false,
+    --Adds spaces around certain objects to stop them from moving other things around
+    use_spacer = 'right',
+    --Use Xft (anti-aliased font and stuff)
+    use_xft = true,
+    --Alpha of Xft font. Must be a value at or between 1 and 0
+    xftalpha = 0.5,
+};
+--#.
+
+conky.text = [[
+# .--- MEMORY ---------------------------------------------------------------.
+${voffset 5}\
+${font bold:size=10}${color Tan1}MEMORY ${color}${hr 2}
+#
+${font}${color}RAM  ${mem} / ${memmax}${alignc} ${color orange}${membar}
+${color}Swap ${swap} / ${swapmax}${alignc} ${color orange}${swapbar}
+#.
+# .--- HDD ------------------------------------------------------------------.
+${voffset 5}\
+${font bold:size=10}${color Tan1}HDD ${color}${hr 2}
+#
+${font}${color}/      ${fs_used /} / ${fs_size /}${alignc} ${color green}${fs_bar /}
+#
+${if_mounted /var}\
+${color}/var   ${fs_used /var} / ${fs_size /var}${alignc} ${color green}${fs_bar /var}
+${endif}\
+#
+${if_mounted /opt/virtualdisks}\
+${color}vdisk  ${fs_used /opt/virtualdisks} / ${fs_size /opt/virtualdisks}${alignc} ${color green}${fs_bar /opt/virtualdisks}
+${endif}\
+#
+${voffset 7}\
+${if_existing /dev/sda}\
+${color}sda read: ${diskio_read sda}${alignr}${diskio_write sda} write
+${color red}${diskiograph_read sda 25,155 red red 2} ${alignr} ${color green}${diskiograph_write sda 25,155 green green 2} 
+${endif}\
+#
+${if_existing /dev/sdb}\
+${color}sdb read: ${diskio_read sdb}${alignr}${diskio_write sdb} write
+${color red}${diskiograph_read sdb 25,155 red red 2} ${alignr} ${color green}${diskiograph_write sdb 25,155 green green 2} 
+${endif}\
+#.
+# .--- TEST SECTION ---------------------------------------------------------------.
+#${font bold:size=10}${color Tan1}TEST SECTION ${color} ${hr 2}
+#
+#
+#${font bold:size=10}${color Tan1}TEST SECTION END${color} ${hr 2}
+
+
+
+
+#.
+]];
+-- vim:syntax=lua
