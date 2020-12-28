@@ -64,7 +64,7 @@ while getopts ":h4wt:p:m:cd" opt; do
             exit 0
             ;;
         4 )
-            PING_CMD="ping -q"
+            PING_CMD="ping -4 -q"
             ;;
         w )
             PING_CMD="httping -r"
