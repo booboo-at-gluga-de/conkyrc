@@ -71,7 +71,7 @@ conky.config = {
 
 conky.text = [[
 # .--- ROUNDTRIP TIMES ------------------------------------------------------.
-${font bold:size=10}${color Tan1}ROUNDTRIP TIMES${color}${hr 2}
+${font bold:size=10}${color Tan1}ROUNDTRIP TIMES ${color}${hr 2}
 #
 #rtt heise v6: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s -c}${alignc}${color orange}\
 #${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s -m 1000}${color}
@@ -96,8 +96,8 @@ Processes: ${processes}${alignr}${running_threads}Threads running
 ${voffset 5}\
 ${font bold:size=10}${color Tan1}SYSTEM ${color} ${hr 2}
 #
-${font}Battery: ${battery_percent}% / ${acpiacadapter AC}${alignc}${color green}${battery_bar}
-${color}Entropy: ${entropy_avail}/${entropy_poolsize}${alignc}${color orange}${entropy_bar}
+${font}Battery: ${battery_percent}% / ${acpiacadapter AC} ${alignc}${color green}${battery_bar}
+${color}Entropy: ${entropy_avail}/${entropy_poolsize} ${alignc}${color orange}${entropy_bar}
 ${color}${sysname} ${kernel} ${alignr}${machine}
 Uptime ${alignr}${uptime}
 #.
