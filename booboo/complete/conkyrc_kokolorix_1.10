@@ -154,14 +154,14 @@ Processes: ${processes}${alignr}${running_threads}Threads running
 ${voffset 5}\
 ${font bold:size=10}${color Tan1}MEMORY ${color}${hr 2}
 #
-${font}${color}RAM  ${mem} / ${memmax}${alignc}${color orange}${membar}
-${color}Swap ${swap} / ${swapmax}${alignc}${color orange}${swapbar}
+${font}${color}RAM  ${mem} / ${memmax}${alignc} ${color orange}${membar}
+${color}Swap ${swap} / ${swapmax}${alignc} ${color orange}${swapbar}
 #.
 # .--- HDD ------------------------------------------------------------------.
 ${voffset 5}\
 ${font bold:size=10}${color Tan1}HDD ${color}${hr 2}
 #
-${font}${color}/         ${fs_used /} / ${fs_size /}${alignc}${color green}${fs_bar /}
+${font}${color}/         ${fs_used /} / ${fs_size /}${alignc} ${color green}${fs_bar /}
 #
 ${if_mounted /var}\
 ${color}/var    ${fs_used /var} / ${fs_size /var}${alignc}${color green}${fs_bar /var}
@@ -176,8 +176,8 @@ ${endif}\
 ${voffset 5}\
 ${font bold:size=10}${color Tan1}SYSTEM ${color} ${hr 2}
 #
-${font}Battery: ${battery_percent}% / ${acpiacadapter AC}${alignc}${color green}${battery_bar}
-${color}Entropy: ${entropy_avail}/${entropy_poolsize}${alignc}${color orange}${entropy_bar}
+${font}Battery: ${battery_percent}% / ${acpiacadapter AC}${alignc} ${color green}${battery_bar}
+${color}Entropy: ${entropy_avail}/${entropy_poolsize}${alignc} ${color orange}${entropy_bar}
 ${color}${sysname} ${kernel} ${alignr}${machine}
 Uptime ${alignr}${uptime}
 #.
