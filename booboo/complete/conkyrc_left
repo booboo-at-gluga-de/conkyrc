@@ -97,7 +97,7 @@ ${endif}\
 
 ${voffset 7}\
 ${if_existing /proc/net/route enp0s25}\
-${color}enp0s25 down: ${downspeedf enp0s25}${alignr}${upspeedf enp0s25} up
+${color}enp0s25 down: ${downspeed enp0s25}${alignr}${upspeed enp0s25} up
 ${color red}${downspeedgraph enp0s25 30,155 red red 2} ${alignr} ${color green}${upspeedgraph enp0s25 30,155 green green 2}
 ${color}Total Down: ${totaldown enp0s25} ${alignr} Total Up: ${totalup enp0s25}
 ${else}\

@@ -170,6 +170,10 @@ ${if_mounted /opt/virtualdisks}\
 ${color}vdisk  ${fs_used /opt/virtualdisks} / ${fs_size /opt/virtualdisks}${alignc}${color green}${fs_bar /opt/virtualdisks}
 ${endif}\
 #
+${if_mounted /opt/mass-storage}\
+${color}mass-s ${fs_used /opt/mass-storage} / ${fs_size /opt/mass-storage}${alignc} ${color green}${fs_bar /opt/mass-storage}
+${endif}\
+#
 ${if_existing /dev/sda}\
 ${color}sda read: ${diskio_read sda}${alignr}${diskio_write sda} write
 ${color red}${diskiograph_read sda 25,155 red red 2} ${alignr} ${color green}${diskiograph_write sda 25,155 green green 2} 
