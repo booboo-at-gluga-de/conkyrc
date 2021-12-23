@@ -71,13 +71,17 @@ conky.config = {
 
 conky.text = [[
 # .--- NETWORK --------------------------------------------------------------.
-${font bold:size=10}${color Tan1}NETWORK ${font}${color}@${font bold:size=10}${color Tan1} ${nodename} ${color}${hr 2}
+${font bold:size=10}${color Tan1}NETWORK ${font}${color}@${font bold:size=10}${color Tan1} ${nodename_short} ${color}${hr 2}
 #
 ${color}${font}\
 LAN : ${addr enp0s25}
 ${if_existing /proc/net/route wlp0s20u2}\
 WLAN: ${addr wlp0s20u2} ${alignr}Link Quality: ${wireless_link_qual wlp0s20u2}
 SSID: ${wireless_essid wlp0s20u2}
+${endif}\
+${if_existing /proc/net/route wlp3s0}\
+WLAN: ${addr wlp3s0} ${alignr}Link Quality: ${wireless_link_qual wlp3s0}
+SSID: ${wireless_essid wlp3s0}
 ${endif}\
 ${if_existing /proc/net/route tun0}\
 ${color Tan1}VPN:${color} ${addr tun0}
@@ -109,13 +113,18 @@ ${endif}\
 ${color}\
 ${if_existing /proc/net/route enp0s25}\
 Down: ${downspeedf enp0s25}kB/s ${alignr}Total: ${totaldown enp0s25}
-Up     : ${upspeedf enp0s25}kB/s ${alignr}Total: ${totalup enp0s25}
+Up  : ${upspeedf enp0s25}kB/s ${alignr}Total: ${totalup enp0s25}
 ${else}\
 ${if_existing /proc/net/route wlp0s20u2}\
 Down: ${downspeedf wlp0s20u2}kB/s ${alignr}Total: ${totaldown wlp0s20u2}
-Up     : ${upspeedf wlp0s20u2}kB/s ${alignr}Total: ${totalup wlp0s20u2}
+Up  : ${upspeedf wlp0s20u2}kB/s ${alignr}Total: ${totalup wlp0s20u2}
+${else}\
+${if_existing /proc/net/route wlp3s0}\
+Down: ${downspeedf wlp3s0}kB/s ${alignr}Total: ${totaldown wlp3s0}
+Up  : ${upspeedf wlp3s0}kB/s ${alignr}Total: ${totalup wlp3s0}
 ${else}\
 ${color red}No network available${color}
+${endif}\
 ${endif}\
 ${endif}\
 #.
