@@ -1,0 +1,203 @@
+-- Conky, a system monitor https://github.com/brndnmtthws/conky
+--
+-- This configuration file is Lua code. You can write code in here, and it will
+-- execute when Conky loads. You can use it to generate your own advanced
+-- configurations.
+--
+-- Try this (remove the `--`):
+--
+--   print("Loading Conky config")
+--
+-- For more on Lua, see:
+-- https://www.lua.org/pil/contents.html
+
+conky.config = {
+    alignment = 'top_right',
+    xinerama_head = 1,
+    background = false,
+    border_width = 1,
+    cpu_avg_samples = 2,
+    double_buffer = true,
+    draw_borders = false,
+    extra_newline = false,
+    font = 'DejaVu Sans Mono:size=10',
+    gap_x = 7,
+    gap_y = 6,
+    minimum_height = 5,
+    minimum_width = 5,
+    net_avg_samples = 2,
+    no_buffers = true,
+    out_to_console = false,
+    out_to_stderr = false,
+    out_to_x = true,
+    own_window = true,
+    --Modify the alpha value used. Range 0-255, where 0 is 0%, and 255 is 100% opacity
+    own_window_argb_value = 150,
+    --Boolean, use ARGB visual. ARGB can be used for real transparency
+    own_window_argb_visual = true,
+    --Boolean, set transparency. If ARGB visual is enabled, sets background opacity 0%
+    own_window_transparent = false,
+    --if own_window is yes, you may specify type normal,desktop,dock,panel or override
+    own_window_type = 'normal',
+    own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+    show_graph_range = false,
+    show_graph_scale = false,
+    stippled_borders = 0,
+    update_interval = 1.0,
+    uppercase = false,
+    use_spacer = 'none',
+    use_xft = true,
+    --The number of samples to average for CPU monitoring
+    cpu_avg_samples = 2,
+    --The number of samples to average for disk I/O monitoring
+    diskio_avg_samples = 2,
+    --The number of samples to average for net data
+    net_avg_samples = 2,
+    --Default color and border color
+    default_color = 'white',
+    --Default outline color
+    default_outline_color = 'green',
+    --Default shading color and border's shading color
+    default_shade_color = 'red',
+    --Draw borders around graphs
+    draw_graph_borders = true,
+    --Draw outlines
+    draw_outline = false,
+    --Draw shades
+    draw_shades = false,
+}
+
+conky.text = [[
+# .--- NETWORK --------------------------------------------------------------.
+${font bold:size=10}${color Tan1}NETWORK ${font}${color}@${font bold:size=10}${color Tan1} ${nodename} ${color}${hr 2}
+#
+${color}${font}\
+LAN : ${addr enp0s25}
+${if_existing /proc/net/route wlp3s0}\
+WLAN: ${addr wlp3s0}
+${endif}\
+${if_existing /proc/net/route tun0}\
+${color Tan1}VPN:${color} ${addr tun0}
+${endif}\
+GW-IP: ${gw_ip} ${alignr} GW-IF: ${gw_iface}
+#WAN: ${alignr} ${execi 120 ~/bin/get-my-public-ip.sh -r}
+Nameservers:${alignr}\
+${if_empty ${nameserver 0}}\
+none\
+${else}\
+${nameserver 0}\
+${endif}\
+${if_empty ${nameserver 1}}\
+${else}\
+, ...\
+${endif}
+#
+${voffset 7}\
+${if_existing /proc/net/route enp0s25}\
+${color}enp0s25 down: ${downspeedf enp0s25}${alignr}${upspeedf enp0s25} up
+${color red}${downspeedgraph enp0s25 30,155 red red 2} ${alignr} ${color green}${upspeedgraph enp0s25 30,155 green green 2}
+${color}Total Down: ${totaldown enp0s25} ${alignr} Total Up: ${totalup enp0s25}
+${else}\
+${if_existing /proc/net/route wlp3s0}\
+${color}wlp3s0 down: ${downspeed wlp3s0}${alignr}${upspeed wlp3s0} up
+${color red}${downspeedgraph wlp3s0 30,155 red red 2} ${alignr} ${color green}${upspeedgraph wlp3s0 30,155 green green 2}
+${color}Total Down: ${totaldown wlp3s0} ${alignr} Total Up: ${totalup wlp3s0}
+${else}\
+${color red}No network available${color}
+${endif}\
+${endif}
+#
+#${voffset 7}\
+#rtt heise v6: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s -c}${alignc}${color orange}\
+#${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -t 8s -m 1000}${color}
+#rtt heise v4: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s -c}${alignc}${color orange}\
+#${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -4 -t 8s -m 1000}${color}
+#rtt heise 80: ${execpi 10 ~/git/conkyrc/booboo/bin/rtt.sh -w -t 8s -c}${alignc}${color orange}\
+#${color orange}${execibar 10 ~/git/conkyrc/booboo/bin/rtt.sh -w -t 8s -m 1000}${color}
+#.
+# .--- CPU ------------------------------------------------------------------.
+${voffset 5}\
+${font bold:size=10}${color Tan1}CPU ${color}${hr 2}
+#
+${font}${color}CPU Temperatur: ${acpitemp}°C ${alignr} Fan: ${ibm_fan}U/min ${alignr}
+${color}CPU1  ${freq_g 1}Ghz  ${cpu cpu1}%${alignc}${color red}${cpubar cpu1}
+${if_empty ${cpu cpu2}}\
+${else}\
+${color}CPU2  ${freq_g 2}Ghz  ${cpu cpu2}%${alignc}${color red}${cpubar cpu2}
+${endif}\
+${if_empty ${cpu cpu3}}\
+${else}\
+${color}CPU3  ${freq_g 3}Ghz  ${cpu cpu3}%${alignc}${color red}${cpubar cpu3}
+${endif}\
+${if_empty ${cpu cpu4}}\
+${else}\
+${color}CPU4  ${freq_g 4}Ghz  ${cpu cpu4}%${alignc}${color red}${cpubar cpu4}
+${endif}\
+${color red}${cpugraph red red scale -t}
+#.
+# .--- TOP PROCESSES --------------------------------------------------------.
+${font bold:size=10}${color Tan1}TOP PROCESSES ${color}${hr 2}
+#
+${font}\
+${top name 1}${alignr}${top cpu 1}%
+${top name 2}${alignr}${top cpu 2}%
+${top name 3}${alignr}${top cpu 3}%
+${top name 4}${alignr}${top cpu 4}%
+${voffset 7}\
+Processes: ${processes}${alignr}${running_threads}Threads running
+#.
+# .--- MEMORY ---------------------------------------------------------------.
+${voffset 5}\
+${font bold:size=10}${color Tan1}MEMORY ${color}${hr 2}
+#
+${font}${color}RAM  ${mem} / ${memmax}${alignc}${color orange}${membar}
+${color}Swap ${swap} / ${swapmax}${alignc}${color orange}${swapbar}
+#.
+# .--- HDD ------------------------------------------------------------------.
+${voffset 5}\
+${font bold:size=10}${color Tan1}HDD ${color}${hr 2}
+#
+${font}${color}/      ${fs_used /} / ${fs_size /}${alignc}${color green}${fs_bar /}
+#
+${if_mounted /var}\
+${color}/var   ${fs_used /var} / ${fs_size /var}${alignc}${color green}${fs_bar /var}
+${endif}\
+#
+${if_existing /dev/sda}\
+${color}sda read: ${diskio_read sda}${alignr}${diskio_write sda} write
+${color red}${diskiograph_read sda 25,155 red red 2} ${alignr} ${color green}${diskiograph_write sda 25,155 green green 2} 
+${endif}\
+#
+${if_existing /dev/sdb}\
+${color}sdb read: ${diskio_read sdb}${alignr}${diskio_write sdb} write
+${color red}${diskiograph_read sdb 25,155 red red 2} ${alignr} ${color green}${diskiograph_write sdb 25,155 green green 2} 
+${endif}\
+#.
+# .--- SYSTEM ---------------------------------------------------------------.
+${voffset 5}\
+${font bold:size=10}${color Tan1}SYSTEM ${color} ${hr 2}
+#
+${font}Battery: ${battery_percent}% / ${acpiacadapter AC}${alignc}${color green}${battery_bar}
+${color}Entropy: ${entropy_avail}/${entropy_poolsize}${alignc}${color orange}${entropy_bar}
+${color}${sysname} ${kernel} ${alignr}${machine}
+Uptime ${alignr}${uptime}
+#.
+# .--- TEST SECTION ---------------------------------------------------------------.
+#${font bold:size=10}${color Tan1}TEST SECTION ${color} ${hr 2}
+#
+#
+#${font bold:size=10}${color Tan1}TEST SECTION END${color} ${hr 2}
+
+
+
+
+
+
+
+
+
+
+#.
+]]
+
+-- vim:syntax=lua
