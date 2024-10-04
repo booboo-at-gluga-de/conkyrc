@@ -77,7 +77,10 @@ ${if_existing /proc/net/route wlp3s0}\
 WLAN: ${addr wlp3s0}
 ${endif}\
 ${if_existing /proc/net/route tun0}\
-${color Tan1}VPN:${color} ${addr tun0}
+${color Tan1}OpenVPN:${color} ${addr tun0}
+${endif}\
+${if_existing /proc/net/route wg0}\
+${color Tan1}Wireguard:${color} ${addr wg0}
 ${endif}\
 GW-IP: ${gw_ip} ${alignr} GW-IF: ${gw_iface}
 #WAN: ${alignr} ${execi 120 ~/bin/get-my-public-ip.sh -r}
